@@ -82,7 +82,7 @@ module.exports = (options)->
   options.fontFacePath ?= "/" #path that will be add to fontFace declaration
   return (style)->
     console.log "icon-font plugin enabled"
-    style.set 'icon-font-filename', "#{options.fontFacePath.replace /\/$/, ''}/#{options.fontName}"
+    style.define 'icon-font-name', new stylus.nodes.String options.fontName
     style.define 'icon-font-unicode', unicode options
     style.define 'icon-font-font-face', fontFace options
     style.include __dirname

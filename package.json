@@ -1,6 +1,6 @@
 {
   "name": "stylus-iconfont",
-  "version": "1.0.0",
+  "version": "0.9.1",
   "description": "icon-font is svg to font builder from svg files",
   "main": "index.js",
   "homepage": "https://github.com/justgook/stylus-iconfont",
@@ -8,7 +8,7 @@
     "prepublish": "coffee --bare --compile index.coffee"
   },
   "author": "Roman Potashow <justgook@gmail.com>",
-  "license": "CC",
+  "license": "CC0",
   "dependencies": {
     "stylus": "^0.48.1",
     "svg2ttf": "^1.1.2",

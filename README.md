@@ -1,13 +1,18 @@
 #stylus iconfont
 
+stylus mixins to create font based on mixins
+
 ## Installation
 
 ```bash
 $ npm install stylus-iconfont -g
 ```
 
-###Usage
-```js
+##Usage
+
+####Javascriot
+
+```
 var stylus = require('stylus');
 stylus
 .use(stylusIconFont())
@@ -18,6 +23,14 @@ stylus
 
 ```
 
+####Stylus
+```
+icon-font-font-face()
+
+h1:before
+  font-family: icon-font-name
+  content: icon-font-unicode("close")
+```
 ## API
 
 ### stylusIconFont(options)
