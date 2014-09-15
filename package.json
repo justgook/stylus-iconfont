@@ -1,0 +1,16 @@
+{
+  "name": "stylus-iconfont",
+  "version": "1.0.0",
+  "description": "icon-font is svg to font builder from svg files",
+  "main": "index.js",
+  "repository": "change me",
+  "scripts": {
+    "test": "gulp unit-testing --require coffee-script/register --gulpfile gulpfile.coffee"
+  },
+  "author": "Roman Potashow",
+  "license": "CC",
+  "dependencies": {
+    "svgicons2svgfont": "^0.1.1"
+  },
+  "devDependencies": {}
+}
