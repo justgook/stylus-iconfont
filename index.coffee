@@ -12,6 +12,7 @@ utils = stylus.utils
 
 startIndex = 0xF700
 glyphsHash = []
+glyphsHashLength = 0
 
 wrtiteToFile = (options)->
   result = ({codepoint: startIndex + index, name: glyph, stream: fs.createReadStream "#{options.glyphsDir}/#{glyph}.svg" } for glyph, index in glyphsHash)
@@ -19,27 +20,28 @@ wrtiteToFile = (options)->
   fontStream = svgicons2svgfont result, options
     .pipe fs.createWriteStream "#{outputFile}.svg"
     .on 'finish', ->
-      ttf = svg2ttf fs.readFileSync("#{outputFile}.svg",encoding:"utf8"), {}
+      ttf = svg2ttf fs.readFileSync("#{outputFile}.svg", encoding:"utf8"), {}
       ttfBuffer = new Buffer ttf.buffer
-      fs.writeFileSync "#{outputFile}.ttf", ttfBuffer
-      console.log "ttf font file created"
+      if 'ttf' in options.outputTypes
+        fs.writeFileSync "#{outputFile}.ttf", ttfBuffer
+        options.log? "ttf font file created"
       try
-        eot = ttf2eot(new Uint8Array(ttfBuffer))
-        eotBuffer = new Buffer eot.buffer
-        fs.writeFileSync "#{outputFile}.eot", eotBuffer
-        console.log "eot font file created"
+        if 'eot' in options.outputTypes
+          eot = ttf2eot new Uint8Array ttfBuffer
+          eotBuffer = new Buffer eot.buffer
+          fs.writeFileSync "#{outputFile}.eot", eotBuffer
+          options.log? "eot font file created"
       catch err
         console.error err
-
       try
-        woff = ttf2woff(new Uint8Array(ttfBuffer))
-        woffBuffer = new Buffer woff.buffer
-        fs.writeFileSync "#{outputFile}.woff", woffBuffer
-        console.log "woff font file created"
+        if 'woff' in options.outputTypes
+          woff = ttf2woff(new Uint8Array(ttfBuffer))
+          woffBuffer = new Buffer woff.buffer
+          fs.writeFileSync "#{outputFile}.woff", woffBuffer
+          options.log? 'woff font file created'
       catch err
         console.error err
-
-      console.log('Font written !')
+      options.log?('Font written !')
 
 
 unicode = (options)->
@@ -55,8 +57,8 @@ fontFace = (options)->
     new nodes.Literal """
       @font-face {
         font-family: '#{options.fontName}';
-        src: url('#{pathToFont}.eot?v=4.2.0');
-        src: url('#{pathToFont}.eot?#iefix&v=4.2.0') format('embedded-opentype'), url('#{pathToFont}.woff?v=4.2.0') format('woff'), url('#{pathToFont}.ttf?v=4.2.0') format('truetype'), url('#{pathToFont}.svg?v=4.2.0#fontawesomeregular') format('svg');
+        src: url('#{pathToFont}.eot');
+        src: url('#{pathToFont}.eot') format('embedded-opentype'), url('#{pathToFont}.woff') format('woff'), url('#{pathToFont}.ttf') format('truetype'), url('#{pathToFont}.svg') format('svg');
         font-weight: normal;
         font-style: normal;
       }
@@ -79,15 +81,20 @@ module.exports = (options)->
   #TODO find better solution
   options.glyphsDir ?= process.cwd()
   options.outputDir ?= process.cwd()
-  options.fontFacePath ?= "/" #path that will be add to fontFace declaration
+  options.fontFacePath ?= "/"
+  options.watchMode ?= true
+  options.outputTypes ?= ['svg', 'ttf', 'eot', 'woff']
   return (style)->
-    console.log "icon-font plugin enabled"
+    options.log? "icon-font plugin enabled"
     style.define 'icon-font-name', new stylus.nodes.String options.fontName
     style.define 'icon-font-unicode', unicode options
     style.define 'icon-font-font-face', fontFace options
     style.include __dirname
     this.on 'end', ->
-      wrtiteToFile options
+      if glyphsHashLength < glyphsHash.length or not options.watchMode
+        wrtiteToFile options
+        glyphsHashLength = glyphsHash.length
+        options.log? "Font '#{options.fontName}' updated"
       return
 
 module.exports.version = require(path.join(__dirname, 'package.json')).version

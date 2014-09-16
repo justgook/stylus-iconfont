@@ -104,5 +104,14 @@ Default value: `false`
 
 Allows you to provide your own logging function. Set to `function(){}` to
  impeach logging.
- 
- 
+  
+#### options.watchMode
+Type: `Boolean`
+Default value: `true`
+
+Recompile font only when count (new glyphs) is added
+
+#### options.outputTypes
+
+Type: `Array`
+Default value: `['svg', 'ttf', 'eot', 'woff']` 

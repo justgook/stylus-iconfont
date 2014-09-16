@@ -1,7 +1,7 @@
 {
   "name": "stylus-iconfont",
-  "version": "0.9.1",
-  "description": "icon-font is svg to font builder from svg files",
+  "version": "0.9.2",
+  "description": "Use font as plain svg, and let stylus care about rest",
   "main": "index.js",
   "homepage": "https://github.com/justgook/stylus-iconfont",
   "scripts": {
