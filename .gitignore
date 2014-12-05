@@ -24,4 +24,4 @@ Thumbs.db
 node_modules/
 
 # Build Files
-index.js
+*.js

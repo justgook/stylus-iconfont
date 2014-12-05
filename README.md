@@ -1,6 +1,14 @@
 #stylus iconfont
 
-stylus mixins to create font based on mixins
+You love font icons - then try use it with **stylus-iconfont**
+
+You hate font icons - that means that u haven't try **stylus-iconfont**
+
+You love font-awesome - then try use it with **stylus-iconfont**
+
+You hate font-awesome - u can use **stylus-iconfont** and bake own
+
+Use font as plain svg, and let stylus care about rest
 
 ## Installation
 
@@ -13,13 +21,16 @@ $ npm install stylus-iconfont -g
 ####Javascriot
 
 ```
-var stylus = require('stylus');
+var stylus = require('stylus'),
+	stylusIconFont = require('stylus-iconfont'),
+	fontFactory = new stylusIconFont()
 stylus
-.use(stylusIconFont())
+.use(fontFactory.register) // collects glyph names, and register mixins
 .render(str, { filename: 'nesting.css' }, function(err, css){
   if (err) throw err;
   console.log(css);
 });
+fontFactory.run() // build font from collected glyphs names
 
 ```
 
@@ -59,6 +70,36 @@ Default value: `'iconfont'`
 
 The font family name you want.
 
+#### options.autoDownloadVendor
+Type: `Boolean`
+Default value: `true`
+
+Auto download vendor icon sets based on icon prefix
+
+**VendorPrefixes:**
+
+   * `fa` - [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
+
+**Example:**
+
+```
+icon-font-font-face()
+
+.fa
+  font-family: icon-font-name
+
+.fa.fa-bicycle:before
+  content: icon-font-unicode("fa/bicycle")
+```
+  
+**Warning:** 
+ 
+ * All vendor icons will be placed under `<glyphsDir>/download/<vendorPrefix>`
+ * All downloads will start once option is **enabled**, and catch first `vendorPrefix` in some mixin
+ * Downloader will download and parse **ALL** available icons in vendor set
+
+
+
 #### options.fixedWidth
 Type: `Boolean`
 Default value: `false`
@@ -79,7 +120,7 @@ Calculate the bounds of a glyph and center it horizontally.
 
 #### options.normalize
 Type: `Boolean`
-Default value: `false`
+Default value: `true`
 
 Normalize icons by scaling them to the height of the highest icon.
 
@@ -104,7 +145,7 @@ Default value: `false`
 
 Allows you to provide your own logging function. Set to `function(){}` to
  impeach logging.
-  
+
 #### options.watchMode
 Type: `Boolean`
 Default value: `true`
@@ -114,4 +155,20 @@ Recompile font only when count (new glyphs) is added
 #### options.outputTypes
 
 Type: `Array`
-Default value: `['svg', 'ttf', 'eot', 'woff']` 
+Default value: `['svg', 'ttf', 'eot', 'woff']`
+
+
+##Versioning
+
+Project will be maintained under the Semantic Versioning guidelines as much as possible. Releases will be numbered with the following format:
+```
+<major>.<minor>.<patch>
+```
+
+And constructed with the following guidelines:
+
+Breaking backward compatibility bumps the major (and resets the minor and patch)
+New additions,without breaking backward compatibility bumps the minor (and resets the patch)
+Bug fixes and misc changes bumps the patch
+For more information on SemVer, please visit http://semver.org.
+
