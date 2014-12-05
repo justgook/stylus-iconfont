@@ -10,7 +10,7 @@ ttf2woff = require 'ttf2woff'
 nodes = stylus.nodes
 utils = stylus.utils
 
-vendorDownloader = require './download.coffee'
+vendorDownloader = require './download'
 
 
 class FontFactory

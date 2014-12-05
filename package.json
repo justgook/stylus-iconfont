@@ -6,7 +6,7 @@
   "repository": "git://github.com/justgook/stylus-iconfont",
   "homepage": "https://github.com/justgook/stylus-iconfont",
   "scripts": {
-    "prepublish": "coffee --bare --compile index.coffee"
+    "prepublish": "coffee --bare --compile ."
   },
   "author": "Roman Potashow <justgook@gmail.com>",
   "license": "CC0",
