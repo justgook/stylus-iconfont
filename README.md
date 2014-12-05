@@ -42,6 +42,11 @@ h1:before
   font-family: icon-font-name
   content: icon-font-unicode("close")
 ```
+
+##Integration
+ 
+ * [Gulp](https://github.com/justgook/stylus-iconfont/wiki/Gulp-integration)
+ 
 ## API
 
 ### stylusIconFont(options)
